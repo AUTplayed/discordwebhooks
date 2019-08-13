@@ -15,7 +15,7 @@ app.post("/*", function(req, res) {
 			payload += "Commits: \n";
 			body.commits.forEach(function(commit) {
 				payload += "[" + commit.message + "]";
-				payload += "(" + commit.url + ")\n";
+				payload += "(<" + commit.url + ">)\n";
 			});
 		}
 	} else if (body.actor) { //bitbucket
@@ -25,12 +25,12 @@ app.post("/*", function(req, res) {
 				payload += " on branch " + body.push.changes[0].new.name + ".\n";
 				body.push.changes[0].commits.forEach((commit) => {
 					payload += "[" + commit.message + "]";
-					payload += "(" + commit.links.html.href + ")\n";
+					payload += "(<" + commit.links.html.href + ">)\n";
 				});
 			}
 		}
 	} else if (body.by) { //taiga
-		payload = "[" + body.by.full_name + "](" + body.by.permalink + ") just did a " + body.action + " on a " + body.type + " called \n**\"" + body.data.subject + "\"** ";
+		payload = "[" + body.by.full_name + "](<" + body.by.permalink + ">) just did a " + body.action + " on a " + body.type + " called \n**\"" + body.data.subject + "\"** ";
 		if (body.data.user_story) {
 			payload += "\nOn user-story called **\"" + body.data.user_story.subject + "\"** ";
 		}
@@ -38,7 +38,7 @@ app.post("/*", function(req, res) {
 			payload += "\nFrom **\"" + body.change.diff.status.from + "\"** to **\"" + body.change.diff.status.to + "\"** ";
 		}
 		if (body.data.milestone) {
-			payload += "\nOn [" + body.data.milestone.name + "](" + body.data.project.permalink + "/taskboard/" + body.data.milestone.slug + ") ";
+			payload += "\nOn [" + body.data.milestone.name + "](<" + body.data.project.permalink + "/taskboard/" + body.data.milestone.slug + ">) ";
 		}
 	}
 	if (body.extra) {
